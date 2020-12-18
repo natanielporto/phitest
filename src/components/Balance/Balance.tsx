@@ -14,36 +14,26 @@ const Balance: React.FC = () => {
   const [balance, setBalance] = useState<number>();
   const [closed, setClosed] = useState<boolean>();
 
-  async function getBalance(): Promise<void> {
-    try {
-      const response = await api.get('/myBalance');
-      setBalance(response.data.amount);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   const handleCloseBalance = async () => {
     try {
-      setClosed(!closed);
-      await AsyncStorage.setItem('@phitest', String(closed));
+      const closedBalance = !closed;
+
+      setClosed(closedBalance);
+
+      await AsyncStorage.setItem('@phitest', String(closedBalance));
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const getUserBalanceSettings = async () => {
-    const settings = await AsyncStorage.getItem('@phitest');
-    if (settings === 'true') {
-      setClosed(true);
-    } else {
-      setClosed(false);
     }
   };
 
   useEffect(() => {
-    getBalance();
-    getUserBalanceSettings();
+    api.get('/myBalance').then((response) => {
+      setBalance(response.data.amount);
+    });
+
+    AsyncStorage.getItem('@phitest').then((settings) => {
+      setClosed(settings === 'true');
+    });
   }, []);
 
   return (

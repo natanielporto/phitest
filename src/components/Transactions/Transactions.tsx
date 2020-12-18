@@ -3,6 +3,7 @@ import {Button, View, TouchableOpacity, Text} from 'react-native';
 import api from '../../services/Api';
 import {MainView, HeaderText, TransferenceType, DetailedView} from './styles';
 import Icon from 'react-native-vector-icons/Feather';
+import {FlatList} from 'react-native-gesture-handler';
 
 interface ObjectDTO {
   amount: number;
@@ -34,19 +35,23 @@ const Transactions: React.FC = () => {
       <MainView>
         <HeaderText>Suas Movimentações</HeaderText>
         {transactions ? (
-          transactions.map((el) => (
-            <DetailedView key={el.id}>
-              <TransferenceType>
-                <Text>{el.description}</Text>
-                <Text>{el.tType}</Text>
-              </TransferenceType>
-              <View>
-                <Text>{el.to}</Text>
-                <Text>{el.createdAt}</Text>
-              </View>
-              <Text>R$ {el.amount.toFixed(2)}</Text>
-            </DetailedView>
-          ))
+          <FlatList
+            data={transactions}
+            keyExtractor={(transaction) => transaction.id}
+            renderItem={({item: el}) => (
+              <DetailedView>
+                <TransferenceType>
+                  <Text>{el.description}</Text>
+                  <Text>{el.tType}</Text>
+                </TransferenceType>
+                <View>
+                  <Text>{el.to}</Text>
+                  <Text>{el.createdAt}</Text>
+                </View>
+                <Text>R$ {el.amount.toFixed(2)}</Text>
+              </DetailedView>
+            )}
+          />
         ) : (
           <Text />
         )}
