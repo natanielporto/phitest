@@ -1,18 +1,27 @@
 import styled from 'styled-components/native';
 
 export const BalanceView = styled.View`
-  margin: 24px;
-  background-color: #f8f8f8;
-  height: 50px;
+  background: #f8f8f8;
+  height: 92px;
 `;
 
 export const YourBalanceText = styled.Text`
-  font-size: 16px;
-  margin: 20px 0 20px 0;
+  font-size: 12px;
+  color: #202021;
+  margin-left: 16px;
 `;
 
 export const BalanceValueNumber = styled.Text`
   color: #00c1af;
+  margin-left: 16px;
   font-weight: bold;
-  font-size: 28px;
+  font-size: 18px;
+`;
+
+export const HideBalanceLine = styled.View`
+  margin-top: 26px;
+  background-color: #00c1af;
+  width: 130px;
+  height: 5px;
+  flex: 1;
 `;
