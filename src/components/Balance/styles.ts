@@ -4,6 +4,10 @@ export const BalanceView = styled.View`
   height: 92px;
 `;
 
+export const StyledBalanceView = styled.View`
+  flex-direction: row;
+`;
+
 export const YourBalanceText = styled.Text`
   font-size: 18px;
   color: #202021;
@@ -25,8 +29,4 @@ export const HideBalanceLine = styled.View`
   width: 170px;
   height: 5px;
   margin-top: 15px;
-`;
-
-export const StyledBalanceView = styled.View`
-  flex-direction: row;
 `;
