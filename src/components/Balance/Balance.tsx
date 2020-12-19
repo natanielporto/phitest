@@ -38,10 +38,9 @@ const Balance: React.FC = () => {
   }, []);
 
   return (
-    <BalanceView>
-      <TouchableOpacity
-        onPress={handleCloseBalance}
-        hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}>
+    <BalanceView
+      onPress={handleCloseBalance}
+    >
         <StyledBalanceView>
           <YourBalanceText>Seu saldo</YourBalanceText>
           <Icon
@@ -61,7 +60,6 @@ const Balance: React.FC = () => {
             )}
           </BalanceValueNumber>
         )}
-      </TouchableOpacity>
     </BalanceView>
   );
 };

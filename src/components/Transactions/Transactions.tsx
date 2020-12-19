@@ -1,8 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import {Button, View, TouchableOpacity, Text} from 'react-native';
+import {Text} from 'react-native';
 import api from '../../services/Api';
-import {MainView, HeaderText, TransferenceType, DetailedView} from './styles';
-import Icon from 'react-native-vector-icons/Feather';
+import {
+  MainView,
+  HeaderText,
+  TransferType,
+  TransferText,
+  DetailedView,
+  IdAndDate,
+  IdText,
+  DateText,
+  PixView,
+  PixText,
+  ValueInReais,
+  GreenDot
+} from './styles';
 import {FlatList} from 'react-native-gesture-handler';
 
 interface ObjectDTO {
@@ -30,6 +42,28 @@ const Transactions: React.FC = () => {
     getTransactions();
   }, []);
 
+  const transferSwitch = (tType: string) =>
+    ({
+      TRANSFEROUT: <Text />,
+      TRANSFERIN: <Text />,
+      PIXCASHIN: (
+        <PixView>
+          <PixText>Pix</PixText>
+        </PixView>
+      ),
+      PIXCASHOUT: (
+        <PixView>
+          <PixText>Pix</PixText>
+        </PixView>
+      ),
+    }[tType]);
+
+  const formatDate = (date: string) => {
+    const sliced = date.split(/-|T/);
+    const formatedDate = `${sliced[2]}/${sliced[1]}`;
+    return formatedDate;
+  };
+
   return (
     <>
       <MainView>
@@ -39,16 +73,24 @@ const Transactions: React.FC = () => {
             data={transactions}
             keyExtractor={(transaction) => transaction.id}
             renderItem={({item: el}) => (
-              <DetailedView>
-                <TransferenceType>
-                  <Text>{el.description}</Text>
-                  <Text>{el.tType}</Text>
-                </TransferenceType>
-                <View>
-                  <Text>{el.to}</Text>
-                  <Text>{el.createdAt}</Text>
-                </View>
-                <Text>R$ {el.amount.toFixed(2)}</Text>
+              <DetailedView pix={el.tType}>
+                <TransferType>
+                  <TransferText>{el.description}</TransferText>
+                  <Text>{transferSwitch(el.tType)}</Text>
+                </TransferType>
+                <IdAndDate>
+                  <IdText>{el.to}</IdText>
+                  <DateText>{formatDate(el.createdAt)}</DateText>
+                </IdAndDate>
+                <ValueInReais>
+                  {el.tType === 'PIXCASHOUT' || el.tType === 'TRANSFEROUT' ? (
+                    <Text>- </Text>
+                  ) : (
+                    <Text />
+                  )}
+                  R$ {el.amount.toFixed(2)}
+                </ValueInReais>
+                <GreenDot />
               </DetailedView>
             )}
           />
