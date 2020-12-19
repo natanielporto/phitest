@@ -6,6 +6,6 @@ export const ScreenTitle = styled.View`
 `;
 
 export const TextTitle = styled.Text`
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
 `;

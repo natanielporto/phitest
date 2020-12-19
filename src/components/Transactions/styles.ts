@@ -6,7 +6,7 @@ export const MainView = styled.View`
 
 export const HeaderText = styled.Text`
   font-weight: bold;
-  font-size: 12;
+  font-size: 20px;
   margin-bottom: 30px;
 `;
 
