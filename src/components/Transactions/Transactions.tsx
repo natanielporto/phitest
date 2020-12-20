@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {TouchableOpacity, Text} from 'react-native';
+import {TouchableOpacity, Text, View} from 'react-native';
 import api from '../../services/Api';
 import {
   MainView,
@@ -14,6 +14,7 @@ import {
   PixText,
   ValueInReais,
   GreenDot,
+  Grayline,
 } from './styles';
 import {FlatList} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
@@ -70,15 +71,17 @@ const Transactions: React.FC = () => {
   );
 
   return (
-    <>
+    <View>
       <MainView>
         <HeaderText>Suas Movimentações</HeaderText>
-        {transactions ? (
-          <FlatList
-            data={transactions}
-            keyExtractor={(transaction) => transaction.id}
-            renderItem={({item: el}) => (
-              <TouchableOpacity onPress={() => navigateToReceipt(el.id)}>
+      </MainView>
+      {transactions ? (
+        <FlatList
+          data={transactions}
+          keyExtractor={(transaction) => transaction.id}
+          renderItem={({item: el}) => (
+            <TouchableOpacity onPress={() => navigateToReceipt(el.id)}>
+              <View>
                 <DetailedView pix={el.tType}>
                   <TransferType>
                     <TransferText>{el.description}</TransferText>
@@ -96,16 +99,17 @@ const Transactions: React.FC = () => {
                     )}
                     R$ {el.amount.toFixed(2)}
                   </ValueInReais>
-                  <GreenDot />
                 </DetailedView>
-              </TouchableOpacity>
-            )}
-          />
-        ) : (
-          <Text />
-        )}
-      </MainView>
-    </>
+              </View>
+              <GreenDot />
+              <Grayline />
+            </TouchableOpacity>
+          )}
+        />
+      ) : (
+        <Text />
+      )}
+    </View>
   );
 };
 

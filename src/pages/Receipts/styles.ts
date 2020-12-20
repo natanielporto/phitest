@@ -1,5 +1,10 @@
 import styled from 'styled-components/native';
 
+export const StyledSafeAreaView = styled.SafeAreaView`
+  background-color: #fff;
+  margin-top: 15px;
+`;
+
 export const IconView = styled.TouchableOpacity`
   margin-top: 15px;
 `;

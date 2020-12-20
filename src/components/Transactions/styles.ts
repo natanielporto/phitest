@@ -11,12 +11,8 @@ export const HeaderText = styled.Text`
 `;
 
 export const DetailedView = styled.View`
-  margin-left: 10px;
-  padding-left: 20px;
-  border-left-width: 1px;
-  border-left-color: #828282;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  margin: 0 0 20px 0px;
+  padding: 10px 0 10px 46px;
   background-color: ${({pix}) =>
     pix === 'PIXCASHIN' || pix === 'PIXCASHOUT' ? '#f8f8f8' : '#FFF'};
 `;
@@ -76,4 +72,15 @@ export const GreenDot = styled.Text`
   position: absolute;
   top: 38px;
   right: 360px;
+  z-index: 2;
+`;
+
+export const Grayline = styled.View`
+  background-color: #828282;
+  height: 130px;
+  width: 1px;
+  right: 366px;
+  position: absolute;
+  flex: 1;
+  z-index: 1;
 `;

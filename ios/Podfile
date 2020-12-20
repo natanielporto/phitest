@@ -10,6 +10,12 @@ target 'PhiReactNativeTest' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'react-native-view-shot', :path => '../node_modules/react-native-view-shot'
+
+  pod 'RNShare', :path => '../node_modules/react-native-share'
+
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'PhiReactNativeTestTests' do
     inherit! :complete
     # Pods for testing
