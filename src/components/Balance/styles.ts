@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 export const BalanceView = styled.TouchableOpacity`
   height: 92px;
   background: #f8f8f8;
-  `;
+`;
 
 export const StyledBalanceView = styled.View`
   flex-direction: row;

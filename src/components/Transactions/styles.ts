@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
 
-
 export const MainView = styled.View`
   margin-left: 16px;
 `;
@@ -8,7 +7,7 @@ export const MainView = styled.View`
 export const HeaderText = styled.Text`
   font-weight: bold;
   font-size: 20px;
-  margin-bottom: 30px;
+  margin: 20px 0 30px 0;
 `;
 
 export const DetailedView = styled.View`
@@ -56,19 +55,19 @@ export const DateText = styled.Text`
 export const PixView = styled.View`
   padding: 2px 18px;
   background-color: #00c1af;
-  `;
-  
-  export const PixText = styled.Text`
+`;
+
+export const PixText = styled.Text`
   font-size: 12px;
   color: #fff;
-  `;
-  
-  export const ValueInReais = styled.Text`
+`;
+
+export const ValueInReais = styled.Text`
   font-size: 18px;
   font-weight: bold;
-  `;
-  
-  export const GreenDot = styled.Text`
+`;
+
+export const GreenDot = styled.Text`
   height: 13px;
   width: 13px;
   border-radius: 50px;
@@ -77,5 +76,4 @@ export const PixView = styled.View`
   position: absolute;
   top: 38px;
   right: 360px;
-  `;
-  
+`;

@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Text} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {TouchableOpacity, Text} from 'react-native';
 import api from '../../services/Api';
 import {
   MainView,
@@ -13,9 +13,10 @@ import {
   PixView,
   PixText,
   ValueInReais,
-  GreenDot
+  GreenDot,
 } from './styles';
 import {FlatList} from 'react-native-gesture-handler';
+import {useNavigation} from '@react-navigation/native';
 
 interface ObjectDTO {
   amount: number;
@@ -27,6 +28,8 @@ interface ObjectDTO {
 }
 
 const Transactions: React.FC = () => {
+  const {navigate} = useNavigation();
+
   const [transactions, setTransactions] = useState<Array<ObjectDTO>>();
 
   async function getTransactions(): Promise<void> {
@@ -64,6 +67,11 @@ const Transactions: React.FC = () => {
     return formatedDate;
   };
 
+  const navigateToReceipt = useCallback((receiptId: string) => {
+    console.log(receiptId);
+    navigateToReceipt(`Receipts/${receiptId}`);
+  }, []);
+
   return (
     <>
       <MainView>
@@ -73,25 +81,27 @@ const Transactions: React.FC = () => {
             data={transactions}
             keyExtractor={(transaction) => transaction.id}
             renderItem={({item: el}) => (
-              <DetailedView pix={el.tType}>
-                <TransferType>
-                  <TransferText>{el.description}</TransferText>
-                  <Text>{transferSwitch(el.tType)}</Text>
-                </TransferType>
-                <IdAndDate>
-                  <IdText>{el.to}</IdText>
-                  <DateText>{formatDate(el.createdAt)}</DateText>
-                </IdAndDate>
-                <ValueInReais>
-                  {el.tType === 'PIXCASHOUT' || el.tType === 'TRANSFEROUT' ? (
-                    <Text>- </Text>
-                  ) : (
-                    <Text />
-                  )}
-                  R$ {el.amount.toFixed(2)}
-                </ValueInReais>
-                <GreenDot />
-              </DetailedView>
+              <TouchableOpacity onPress={() => navigateToReceipt(el.id)}>
+                <DetailedView pix={el.tType}>
+                  <TransferType>
+                    <TransferText>{el.description}</TransferText>
+                    <Text>{transferSwitch(el.tType)}</Text>
+                  </TransferType>
+                  <IdAndDate>
+                    <IdText>{el.to}</IdText>
+                    <DateText>{formatDate(el.createdAt)}</DateText>
+                  </IdAndDate>
+                  <ValueInReais>
+                    {el.tType === 'PIXCASHOUT' || el.tType === 'TRANSFEROUT' ? (
+                      <Text>- </Text>
+                    ) : (
+                      <Text />
+                    )}
+                    R$ {el.amount.toFixed(2)}
+                  </ValueInReais>
+                  <GreenDot />
+                </DetailedView>
+              </TouchableOpacity>
             )}
           />
         ) : (

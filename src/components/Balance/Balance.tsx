@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {TouchableOpacity, View} from 'react-native';
-import api from '../../services/Api';
+import {View} from 'react-native';
+import Icon from 'react-native-vector-icons/Entypo';
+import AsyncStorage from '@react-native-community/async-storage';
+
 import {
   BalanceView,
   YourBalanceText,
@@ -8,8 +10,7 @@ import {
   HideBalanceLine,
   StyledBalanceView,
 } from './styles';
-import Icon from 'react-native-vector-icons/Entypo';
-import AsyncStorage from '@react-native-community/async-storage';
+import api from '../../services/Api';
 
 const Balance: React.FC = () => {
   const [balance, setBalance] = useState<number>();
@@ -38,28 +39,26 @@ const Balance: React.FC = () => {
   }, []);
 
   return (
-    <BalanceView
-      onPress={handleCloseBalance}
-    >
-        <StyledBalanceView>
-          <YourBalanceText>Seu saldo</YourBalanceText>
-          <Icon
-            name={closed ? 'eye' : 'eye-with-line'}
-            size={24}
-            color="#00c1af"
-          />
-        </StyledBalanceView>
-        {balance && (
-          <BalanceValueNumber onPress={handleCloseBalance}>
-            {closed ? (
-              <View>
-                <HideBalanceLine />
-              </View>
-            ) : (
-              `R$ ${balance.toFixed(2)}`
-            )}
-          </BalanceValueNumber>
-        )}
+    <BalanceView onPress={handleCloseBalance}>
+      <StyledBalanceView>
+        <YourBalanceText>Seu saldo</YourBalanceText>
+        <Icon
+          name={closed ? 'eye' : 'eye-with-line'}
+          size={24}
+          color="#00c1af"
+        />
+      </StyledBalanceView>
+      {balance && (
+        <BalanceValueNumber onPress={handleCloseBalance}>
+          {closed ? (
+            <View>
+              <HideBalanceLine />
+            </View>
+          ) : (
+            `R$ ${balance.toFixed(2)}`
+          )}
+        </BalanceValueNumber>
+      )}
     </BalanceView>
   );
 };
