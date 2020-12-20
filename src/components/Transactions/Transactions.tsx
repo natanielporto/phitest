@@ -67,10 +67,12 @@ const Transactions: React.FC = () => {
     return formatedDate;
   };
 
-  const navigateToReceipt = useCallback((receiptId: string) => {
-    console.log(receiptId);
-    navigateToReceipt(`Receipts/${receiptId}`);
-  }, []);
+  const navigateToReceipt = useCallback(
+    (receiptId: string) => {
+      navigate('Receipts', {receiptId});
+    },
+    [navigate],
+  );
 
   return (
     <>

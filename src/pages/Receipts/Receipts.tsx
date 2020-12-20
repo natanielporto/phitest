@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
@@ -22,22 +21,27 @@ interface RouteParams {
   receiptId: string;
 }
 
+interface Receipt {
+  authentication: string;
+  createdAt: string;
+  to: string;
+  amount: number;
+  description: string;
+  tType: string;
+}
+
 const Receipts: React.FC = () => {
   const route = useRoute();
   const {receiptId} = route.params as RouteParams;
-  const [receipt, setReceipt] = useState({});
+  const [receipt, setReceipt] = useState<Receipt>({});
 
-  console.log(receiptId);
-  // const [selectedReceipt, setSelectedReceipt] = useState(receiptId)
-
-  const {goBack, navigate} = useNavigation();
+  const {goBack} = useNavigation();
 
   useEffect(() => {
     api.get(`/myStatement/detail/${receiptId}`).then((response) => {
-      console.log(response);
       setReceipt(response.data);
     });
-  }, []);
+  }, [receiptId]);
 
   const navigateBack = useCallback(() => {
     goBack();
@@ -54,27 +58,27 @@ const Receipts: React.FC = () => {
       <ReceiptViewBorder />
       <ReceiptBodyView>
         <ReceiptBodyTopText>Tipo de movimentação</ReceiptBodyTopText>
-        <ReceiptBodyBottomText>Transferência enviada</ReceiptBodyBottomText>
+        <ReceiptBodyBottomText>{receipt.tType}</ReceiptBodyBottomText>
       </ReceiptBodyView>
       <ReceiptBodyView>
         <ReceiptBodyTopText>Valor</ReceiptBodyTopText>
-        <ReceiptBodyBottomText>R$ 100,00</ReceiptBodyBottomText>
+        <ReceiptBodyBottomText>{receipt.amount}</ReceiptBodyBottomText>
       </ReceiptBodyView>
       <ReceiptBodyView>
         <ReceiptBodyTopText>Recebedor</ReceiptBodyTopText>
-        <ReceiptBodyBottomText>David Bond</ReceiptBodyBottomText>
+        <ReceiptBodyBottomText>{receipt.to}</ReceiptBodyBottomText>
       </ReceiptBodyView>
       <ReceiptBodyView>
         <ReceiptBodyTopText>Instituição bancária</ReceiptBodyTopText>
-        <ReceiptBodyBottomText>Banco Phi</ReceiptBodyBottomText>
+        <ReceiptBodyBottomText>{receipt.description}</ReceiptBodyBottomText>
       </ReceiptBodyView>
       <ReceiptBodyView>
         <ReceiptBodyTopText>Data/Hora</ReceiptBodyTopText>
-        <ReceiptBodyBottomText>13/10/2020 - 15:27:02</ReceiptBodyBottomText>
+        <ReceiptBodyBottomText>{receipt.createdAt}</ReceiptBodyBottomText>
       </ReceiptBodyView>
       <ReceiptBodyView>
         <ReceiptBodyTopText>Autenticação</ReceiptBodyTopText>
-        <ReceiptBodyBottomText>123445345</ReceiptBodyBottomText>
+        <ReceiptBodyBottomText>{receipt.authentication}</ReceiptBodyBottomText>
       </ReceiptBodyView>
       <ShareButton>
         <ShareButtonText>Compartilhar</ShareButtonText>
