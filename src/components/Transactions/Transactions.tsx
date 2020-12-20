@@ -17,6 +17,7 @@ import {
 } from './styles';
 import {FlatList} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
+import formatDate from '../../helpers/helpers';
 
 interface ObjectDTO {
   amount: number;
@@ -61,12 +62,6 @@ const Transactions: React.FC = () => {
       ),
     }[tType]);
 
-  const formatDate = (date: string) => {
-    const sliced = date.split(/-|T/);
-    const formatedDate = `${sliced[2]}/${sliced[1]}`;
-    return formatedDate;
-  };
-
   const navigateToReceipt = useCallback(
     (receiptId: string) => {
       navigate('Receipts', {receiptId});
@@ -91,7 +86,7 @@ const Transactions: React.FC = () => {
                   </TransferType>
                   <IdAndDate>
                     <IdText>{el.to}</IdText>
-                    <DateText>{formatDate(el.createdAt)}</DateText>
+                    <DateText>{formatDate(el.createdAt, true)}</DateText>
                   </IdAndDate>
                   <ValueInReais>
                     {el.tType === 'PIXCASHOUT' || el.tType === 'TRANSFEROUT' ? (
