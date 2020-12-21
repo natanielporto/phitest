@@ -11,6 +11,7 @@ import {
   StyledBalanceView,
 } from './styles';
 import api from '../../services/Api';
+import {formatValue} from '../../helpers/helpers';
 
 const Balance: React.FC = () => {
   const [balance, setBalance] = useState<number>();
@@ -55,7 +56,7 @@ const Balance: React.FC = () => {
               <HideBalanceLine />
             </View>
           ) : (
-            `R$ ${balance.toFixed(2)}`
+            `R$ ${formatValue(balance)}`
           )}
         </BalanceValueNumber>
       )}

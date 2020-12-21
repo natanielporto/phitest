@@ -2,6 +2,13 @@ import styled from 'styled-components/native';
 
 export const MainView = styled.View`
   margin-left: 16px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const TransactionsFlatList = styled.FlatList`
+  margin-bottom: 450px;
 `;
 
 export const HeaderText = styled.Text`
@@ -13,14 +20,14 @@ export const HeaderText = styled.Text`
 export const DetailedView = styled.View`
   margin: 0 0 20px 0px;
   padding: 10px 0 10px 46px;
-  background-color: ${(props) => (props.pix ? '#f8f8f8' : '#fff')};
+  background-color: ${({pix}) => (pix ? '#f8f8f8' : '#fff')};
 `;
 
 export const TransferType = styled.View`
   justify-content: space-between;
   flex: 1;
   flex-direction: row;
-  margin-right: 20px;
+  margin-right: 16px;
 `;
 
 export const TransferText = styled.Text`
@@ -48,7 +55,9 @@ export const DateText = styled.Text`
 `;
 
 export const PixView = styled.View`
-  padding: 2px 18px;
+  padding: 0px 18px;
+  height: 22px;
+  justify-content: center;
   background-color: #00c1af;
 `;
 

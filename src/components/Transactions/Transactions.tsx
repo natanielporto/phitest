@@ -1,13 +1,9 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  FunctionComponent,
-} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {TouchableOpacity, Text, View} from 'react-native';
 import api from '../../services/Api';
 import {
   MainView,
+  TransactionsFlatList,
   HeaderText,
   TransferType,
   TransferText,
@@ -23,9 +19,8 @@ import {
   LoadingView,
   LoadingText,
 } from './styles';
-import {FlatList} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
-import formatDate from '../../helpers/helpers';
+import {formatDate, formatValue} from '../../helpers/helpers';
 
 interface ObjectDTO {
   amount: number;
@@ -33,17 +28,17 @@ interface ObjectDTO {
   description: string;
   id: string;
   tType: string;
-  to: string;
+  to?: string;
+  from?: string;
 }
 
 const Transactions: React.FC = () => {
   const {navigate} = useNavigation();
-
   const [transactions, setTransactions] = useState<Array<ObjectDTO>>();
 
   async function getTransactions(): Promise<void> {
     try {
-      const response = await api.get('/myStatement/8/0');
+      const response = await api.get('/myStatement/20/0');
       setTransactions(response.data.items);
     } catch {
       setTransactions([]);
@@ -53,22 +48,6 @@ const Transactions: React.FC = () => {
   useEffect(() => {
     getTransactions();
   }, []);
-
-  const transferSwitch: FunctionComponent<String> = (tType) =>
-    ({
-      TRANSFEROUT: <Text />,
-      TRANSFERIN: <Text />,
-      PIXCASHIN: (
-        <PixView>
-          <PixText>Pix</PixText>
-        </PixView>
-      ),
-      PIXCASHOUT: (
-        <PixView>
-          <PixText>Pix</PixText>
-        </PixView>
-      ),
-    }[tType]);
 
   const isPix = (tType: string) => {
     const pix = tType !== 'PIXCASHIN' && tType !== 'PIXCASHOUT' ? false : true;
@@ -89,7 +68,7 @@ const Transactions: React.FC = () => {
         <HeaderText>Suas Movimentações</HeaderText>
       </MainView>
       {transactions ? (
-        <FlatList
+        <TransactionsFlatList
           data={transactions}
           keyExtractor={(transaction) => transaction.id}
           renderItem={({item: el}) => (
@@ -98,10 +77,16 @@ const Transactions: React.FC = () => {
                 <DetailedView pix={isPix(el.tType)}>
                   <TransferType>
                     <TransferText>{el.description}</TransferText>
-                    <Text>{transferSwitch(el.tType)}</Text>
+                    {el.tType === 'PIXCASHIN' || el.tType === 'PIXCASHOUT' ? (
+                      <PixView>
+                        <PixText>Pix</PixText>
+                      </PixView>
+                    ) : (
+                      <Text />
+                    )}
                   </TransferType>
                   <IdAndDate>
-                    <IdText>{el.to}</IdText>
+                    <IdText>{el.to || el.from}</IdText>
                     <DateText>{formatDate(el.createdAt, true)}</DateText>
                   </IdAndDate>
                   <ValueInReais>
@@ -110,7 +95,7 @@ const Transactions: React.FC = () => {
                     ) : (
                       <Text />
                     )}
-                    R$ {el.amount.toFixed(2)}
+                    R$ {formatValue(el.amount)}
                   </ValueInReais>
                 </DetailedView>
               </View>

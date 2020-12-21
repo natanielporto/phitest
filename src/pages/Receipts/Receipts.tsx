@@ -4,7 +4,7 @@ import ViewShot from 'react-native-view-shot';
 import Share from 'react-native-share';
 import Icon from 'react-native-vector-icons/Entypo';
 import api from '../../services/Api';
-import formatDate from '../../helpers/helpers';
+import {formatDate, formatValue} from '../../helpers/helpers';
 const RNFS = require('react-native-fs');
 
 import {
@@ -32,6 +32,7 @@ interface Receipt {
   description: string;
   tType: string;
   bankName?: string;
+  from?: string;
 }
 
 const exportBackground = {backgroundColor: '#fff'};
@@ -40,7 +41,7 @@ const Receipts: React.FC = () => {
   const route = useRoute();
   const {receiptId} = route.params as RouteParams;
   const [receipt, setReceipt] = useState<Receipt>({} as Receipt);
-  const viewShot = useRef();
+  const viewShot = useRef<ViewShot>();
 
   const {goBack} = useNavigation();
 
@@ -56,14 +57,14 @@ const Receipts: React.FC = () => {
     bankName,
     createdAt,
     description,
-    // tType,
     to,
+    from,
   } = receipt;
 
   const receiptArr = {
     'Tipo de movimentação': description,
-    Valor: amount ? `R$ ${amount.toFixed(2)}` : '',
-    Recebedor: to,
+    Valor: amount ? `R$ ${formatValue(amount)}` : '',
+    Recebedor: to || from,
     'Instituição bancária': bankName ? bankName : 'Outra além do banco Phi',
     'Data/Hora': createdAt ? formatDate(createdAt) : '',
     Autenticação: authentication,
@@ -74,7 +75,7 @@ const Receipts: React.FC = () => {
   }, [goBack]);
 
   const handleCaptureAndShare = async () => {
-    if (viewShot === null) {
+    if (!viewShot.current || !viewShot.current.capture) {
       return console.log('Error in viewShot.');
     } else {
       viewShot.current.capture().then((uri: string) => {
@@ -98,7 +99,7 @@ const Receipts: React.FC = () => {
   return (
     <StyledSafeAreaView>
       <IconView onPress={navigateBack}>
-        <Icon name="chevron-left" size={40} color="#828282" />
+        <Icon name="chevron-thin-left" size={25} color="#828282" />
       </IconView>
       <ViewShot
         ref={viewShot}

@@ -16,6 +16,8 @@ target 'PhiReactNativeTest' do
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
+  pod 'react-native-config', :path => '../node_modules/react-native-config'
+
   target 'PhiReactNativeTestTests' do
     inherit! :complete
     # Pods for testing

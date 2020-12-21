@@ -6,7 +6,7 @@ export const StyledSafeAreaView = styled.SafeAreaView`
 `;
 
 export const IconView = styled.TouchableOpacity`
-  margin-top: 15px;
+  margin: 20px 0 0 16px;
 `;
 
 export const ReceiptViewBorder = styled.View`
