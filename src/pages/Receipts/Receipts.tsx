@@ -31,7 +31,10 @@ interface Receipt {
   amount: number;
   description: string;
   tType: string;
+  bankName?: string;
 }
+
+const exportBackground = {backgroundColor: '#fff'};
 
 const Receipts: React.FC = () => {
   const route = useRoute();
@@ -47,13 +50,21 @@ const Receipts: React.FC = () => {
     });
   }, [receiptId]);
 
-  const {amount, authentication, createdAt, description, tType, to} = receipt;
+  const {
+    amount,
+    authentication,
+    bankName,
+    createdAt,
+    description,
+    // tType,
+    to,
+  } = receipt;
 
   const receiptArr = {
     'Tipo de movimentação': description,
     Valor: amount ? `R$ ${amount.toFixed(2)}` : '',
     Recebedor: to,
-    'Instituição bancária': tType,
+    'Instituição bancária': bankName ? bankName : 'Outra além do banco Phi',
     'Data/Hora': createdAt ? formatDate(createdAt) : '',
     Autenticação: authentication,
   };
@@ -70,16 +81,15 @@ const Receipts: React.FC = () => {
         RNFS.readFile(uri, 'base64').then((res: string) => {
           let urlString = 'data:image/jpeg;base64,' + res;
           let options = {
-            title: 'Share Title',
-            message: 'Share Message',
+            title: 'Comprovante Banco Phi',
+            message:
+              'Olá! Você acaba de receber um compartilhamento de comprovante do Banco Phi. Olha só:',
             url: urlString,
             type: 'image/jpeg',
           };
-          Share.open(options)
-            .then(() => {})
-            .catch((err) => {
-              err && console.log(err);
-            });
+          Share.open(options).catch((err) => {
+            err && console.log(err);
+          });
         });
       });
     }
@@ -90,7 +100,10 @@ const Receipts: React.FC = () => {
       <IconView onPress={navigateBack}>
         <Icon name="chevron-left" size={40} color="#828282" />
       </IconView>
-      <ViewShot ref={viewShot} options={{format: 'jpg', quality: 1}}>
+      <ViewShot
+        ref={viewShot}
+        style={exportBackground}
+        options={{format: 'jpg', quality: 1}}>
         <HeaderTextView>
           <ReceiptText>Comprovante</ReceiptText>
         </HeaderTextView>
@@ -100,7 +113,9 @@ const Receipts: React.FC = () => {
             return (
               <ReceiptBodyView key={index}>
                 <ReceiptBodyTopText>{key}</ReceiptBodyTopText>
-                <ReceiptBodyBottomText>{value}</ReceiptBodyBottomText>
+                <ReceiptBodyBottomText>
+                  {value ? value : 'Carregando...'}
+                </ReceiptBodyBottomText>
               </ReceiptBodyView>
             );
           })}
