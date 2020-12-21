@@ -13,7 +13,7 @@ export const HeaderText = styled.Text`
 export const DetailedView = styled.View`
   margin: 0 0 20px 0px;
   padding: 10px 0 10px 46px;
-  background-color: ${({pix}) =>
+  background-color: ${(pix) =>
     pix === 'PIXCASHIN' || pix === 'PIXCASHOUT' ? '#f8f8f8' : '#FFF'};
 `;
 
@@ -64,14 +64,14 @@ export const ValueInReais = styled.Text`
 `;
 
 export const GreenDot = styled.Text`
-  height: 13px;
-  width: 13px;
+  height: 14px;
+  width: 14px;
   border-radius: 50px;
   border: 2px solid #fff;
   background-color: #00c1af;
   position: absolute;
-  top: 38px;
-  right: 360px;
+  top: 42px;
+  right: 359px;
   z-index: 2;
 `;
 
@@ -83,4 +83,19 @@ export const Grayline = styled.View`
   position: absolute;
   flex: 1;
   z-index: 1;
+`;
+
+export const LoadingView = styled.View`
+  background-color: #00c1af;
+  justify-content: center;
+  align-items: center;
+  margin: 150px 100px;
+  height: 50px;
+  border-radius: 4px;
+`;
+
+export const LoadingText = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
 `;

@@ -5,7 +5,7 @@ import Share from 'react-native-share';
 import Icon from 'react-native-vector-icons/Entypo';
 import api from '../../services/Api';
 import formatDate from '../../helpers/helpers';
-// import RNFS from 'fs';
+const RNFS = require('react-native-fs');
 
 import {
   StyledSafeAreaView,
@@ -76,9 +76,7 @@ const Receipts: React.FC = () => {
             type: 'image/jpeg',
           };
           Share.open(options)
-            .then(() => {
-              console.log(res);
-            })
+            .then(() => {})
             .catch((err) => {
               err && console.log(err);
             });
@@ -92,7 +90,7 @@ const Receipts: React.FC = () => {
       <IconView onPress={navigateBack}>
         <Icon name="chevron-left" size={40} color="#828282" />
       </IconView>
-      <ViewShot ref={viewShot} options={{format: 'jpg', quality: 0.9}}>
+      <ViewShot ref={viewShot} options={{format: 'jpg', quality: 1}}>
         <HeaderTextView>
           <ReceiptText>Comprovante</ReceiptText>
         </HeaderTextView>

@@ -15,6 +15,8 @@ import {
   ValueInReais,
   GreenDot,
   Grayline,
+  LoadingView,
+  LoadingText,
 } from './styles';
 import {FlatList} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
@@ -107,7 +109,9 @@ const Transactions: React.FC = () => {
           )}
         />
       ) : (
-        <Text />
+        <LoadingView>
+          <LoadingText>Carregando...</LoadingText>
+        </LoadingView>
       )}
     </View>
   );
