@@ -1,4 +1,9 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  FunctionComponent,
+} from 'react';
 import {TouchableOpacity, Text, View} from 'react-native';
 import api from '../../services/Api';
 import {
@@ -49,7 +54,7 @@ const Transactions: React.FC = () => {
     getTransactions();
   }, []);
 
-  const transferSwitch = (tType: string) =>
+  const transferSwitch: FunctionComponent<String> = (tType) =>
     ({
       TRANSFEROUT: <Text />,
       TRANSFERIN: <Text />,
@@ -64,6 +69,12 @@ const Transactions: React.FC = () => {
         </PixView>
       ),
     }[tType]);
+
+  const isPix = (tType: string) => {
+    const pix = tType !== 'PIXCASHIN' && tType !== 'PIXCASHOUT' ? false : true;
+
+    return pix;
+  };
 
   const navigateToReceipt = useCallback(
     (receiptId: string) => {
@@ -84,7 +95,7 @@ const Transactions: React.FC = () => {
           renderItem={({item: el}) => (
             <TouchableOpacity onPress={() => navigateToReceipt(el.id)}>
               <View>
-                <DetailedView pix={el.tType}>
+                <DetailedView pix={isPix(el.tType)}>
                   <TransferType>
                     <TransferText>{el.description}</TransferText>
                     <Text>{transferSwitch(el.tType)}</Text>

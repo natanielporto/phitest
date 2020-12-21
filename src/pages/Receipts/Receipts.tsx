@@ -39,8 +39,8 @@ const exportBackground = {backgroundColor: '#fff'};
 const Receipts: React.FC = () => {
   const route = useRoute();
   const {receiptId} = route.params as RouteParams;
-  const [receipt, setReceipt] = useState<Receipt>({});
-  const viewShot = useRef(null);
+  const [receipt, setReceipt] = useState<Receipt>({} as Receipt);
+  const viewShot = useRef();
 
   const {goBack} = useNavigation();
 

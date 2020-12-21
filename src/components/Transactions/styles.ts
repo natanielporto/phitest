@@ -13,8 +13,7 @@ export const HeaderText = styled.Text`
 export const DetailedView = styled.View`
   margin: 0 0 20px 0px;
   padding: 10px 0 10px 46px;
-  background-color: ${(pix) =>
-    pix === 'PIXCASHIN' || pix === 'PIXCASHOUT' ? '#f8f8f8' : '#FFF'};
+  background-color: ${(props) => (props.pix ? '#f8f8f8' : '#fff')};
 `;
 
 export const TransferType = styled.View`
